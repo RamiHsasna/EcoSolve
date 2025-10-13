@@ -689,22 +689,26 @@
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="location" class="form-label">Localisation</label>
-                    <input type="text" step="any" class="form-control" id="location" name="location" required />
+                    <label for="latitude" class="form-label">Localisation (Latitude)</label>
+                    <input type="number" step="any" class="form-control" id="latitude" name="latitude" required />
                   </div>
+                  <div class="mb-3">
+                    <label for="longitude" class="form-label">Longitude</label>
+                    <input type="number" step="any" class="form-control" id="longitude" name="longitude" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="photo" class="form-label">Photo (optionnel)</label>
+                    <input type="file" class="form-control" id="photo" name="photo" accept="image/*" />
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Envoyer le Signalement</button>
+                  </div>
+                </form>
               </div>
-              <div class="mb-3">
-                <label for="photo" class="form-label">Photo (optionnel)</label>
-                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" />
-              </div>
-              <button type="submit" class="btn btn-primary">
-                Envoyer le Signalement
-              </button>
-              </form>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </section>
     <!-- /Signalement Section -->
@@ -1008,6 +1012,5 @@
     // var map = L.map('map-container').setView([48.8566, 2.3522], 13); // Paris
     // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
   </script>
-</body>
 
 </html>
