@@ -99,19 +99,53 @@
           >
           <a
             href="#notifications"
-            class="btn-notification"
+            class="btn-notification position-relative"
             title="Notifications"
           >
-            <!-- Lien vers une section notifications (adapte l'href) -->
             <i class="bi bi-bell fs-5"></i>
-            <!-- Icône cloche (bell), taille moyenne (fs-5) -->
-            <!-- Optionnel : Ajoute un badge rouge pour indiquer des notifications non lues -->
+            <!-- Badge rouge circulaire positionné sur l'icône (haut droite, superposé comme dans l'image) -->
             <span
-              class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
-              style="font-size: 0.6em"
+              class="badge bg-danger rounded-circle position-absolute top-0 end-0 translate-middle mt-n2 me-n2"
+              style="
+                font-size: 0.6em;
+                width: 18px;
+                height: 18px;
+                line-height: 1;
+              "
               >3</span
             >
           </a>
+          <!-- Boîte de notifications (sans display:none inline – gérée en CSS) -->
+          <div id="notif-box">
+            <!-- Wrapper pour le scroll (ajouté pour isoler le contenu scrollable) -->
+            <div class="notif-scrollable">
+              <ul style="list-style: none; margin: 0; padding: 0">
+                <li>
+                  <strong>Nouvelle opportunité près de chez vous !</strong>
+                  <small>(il y a 2h)</small>
+                </li>
+                <li>
+                  <strong>Signalement résolu : Merci pour votre aide !</strong>
+                  <small>(il y a 4h)</small>
+                </li>
+                <li>
+                  <strong>3 nouveaux problèmes dans votre zone.</strong>
+                  <small>(hier)</small>
+                </li>
+                <!-- Ajoute plus d'items pour tester le scroll -->
+                <li><strong>Autre notif 4</strong> <small>(hier)</small></li>
+                <li>
+                  <strong>Autre notif 5</strong> <small>(il y a 3j)</small>
+                </li>
+                <li>
+                  <strong>Autre notif 6</strong> <small>(il y a 5j)</small>
+                </li>
+                <li>
+                  <strong>Autre notif 7</strong> <small>(il y a 6j)</small>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </header>
