@@ -89,7 +89,30 @@
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
         <!-- Change redirection link to authentication page -->
-        <a class="btn-getstarted" href="http://localhost/EcoSolve/Authentification/index.php">S'inscrire</a>
+        <!-- Groupe de boutons à droite : S'inscrire + Notifications -->
+        <div class="d-flex align-items-center gap-2">
+          <!-- Wrapper pour aligner horizontalement avec un petit espace -->
+          <a
+            class="btn-getstarted"
+            href="http://localhost/EcoSolve/Authentification/index.php"
+            >S'inscrire</a
+          >
+          <a
+            href="#notifications"
+            class="btn-notification"
+            title="Notifications"
+          >
+            <!-- Lien vers une section notifications (adapte l'href) -->
+            <i class="bi bi-bell fs-5"></i>
+            <!-- Icône cloche (bell), taille moyenne (fs-5) -->
+            <!-- Optionnel : Ajoute un badge rouge pour indiquer des notifications non lues -->
+            <span
+              class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="font-size: 0.6em"
+              >3</span
+            >
+          </a>
+        </div>
       </div>
     </header>
 

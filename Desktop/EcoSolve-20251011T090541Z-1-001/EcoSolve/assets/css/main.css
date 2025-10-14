@@ -3948,3 +3948,23 @@ section,
 .starter-section {
   /* Add your styles here */
 }
+/*--------------------------------------------------------------
+# Custom Notification Styles
+--------------------------------------------------------------*/
+.btn-notification {
+  position: relative;  /* Pour positionner le badge */
+  color: #007bff;  /* Bleu comme le bouton principal */
+  padding: 0.5rem;  /* Espacement interne */
+  border-radius: 0.375rem;  /* Coins arrondis */
+  transition: color 0.3s ease;  /* Animation hover */
+}
+
+.btn-notification:hover {
+  color: #0056b3;  /* Bleu plus foncé au hover */
+  text-decoration: none;  /* Pas de soulignement */
+}
+
+/* Badge flottant pour notifs */
+.badge {
+  background-color: #dc3545 !important;  /* Rouge vif */
+}
