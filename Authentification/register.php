@@ -41,7 +41,7 @@ if (isset($_POST['signIn'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $_SESSION['email'] = $user['email'];
         $_SESSION['username'] = $user['username']; // store username for homepage
-        header("Location: homepage.php");
+        header("Location: http://localhost/EcoSolve/Desktop/EcoSolve-20251011T090541Z-1-001/EcoSolve/index.html");
         exit();
     } else {
         echo "Incorrect Email or Password!";

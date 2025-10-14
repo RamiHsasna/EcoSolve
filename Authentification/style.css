@@ -4,10 +4,12 @@
     box-sizing:border-box;
     font-family:"poppins",sans-serif;
 }
+
 body{
-    background-color: #c9d6ff;
-    background:linear-gradient(to right,#e2e2e2,#c9d6ff);
+    background-color: #99e0df; /* updated */
+    background: linear-gradient(to right, #e2e2e2, #99e0df); /* gradient using new color */
 }
+
 .container{
     background:#fff;
     width:450px;
@@ -16,16 +18,20 @@ body{
     border-radius:10px;
     box-shadow:0 20px 35px rgba(0,0,1,0.9);
 }
+
 form{
     margin:0 2rem;
 }
+
 .form-title{
     font-size:1.5rem;
     font-weight:bold;
     text-align:center;
     padding:1.3rem;
     margin-bottom:0.4rem;
+    color:#00a19e; /* updated Sign Up title color */
 }
+
 input{
     color:inherit;
     width:100%;
@@ -35,23 +41,27 @@ input{
     padding-left:1.5rem;
     font-size:15px;
 }
+
 .input-group{
     padding:1% 0;
     position:relative;
-
 }
+
 .input-group i{
     position:absolute;
     color:black;
 }
+
 input:focus{
     background-color: transparent;
     outline:transparent;
     border-bottom:2px solid hsl(327,90%,28%);
 }
+
 input::placeholder{
     color:transparent;
 }
+
 label{
     color:#757575;
     position:relative;
@@ -60,25 +70,29 @@ label{
     cursor:auto;
     transition:0.3s ease all;
 }
+
 input:focus~label,input:not(:placeholder-shown)~label{
     top:-3em;
     color:hsl(327,90%,28%);
     font-size:15px;
 }
+
 .recover{
     text-align:right;
     font-size:1rem;
     margin-bottom:1rem;
-
 }
+
 .recover a{
     text-decoration:none;
-    color:rgb(125,125,235);
+    color:#00a19e; /* updated Recover Password color */
 }
+
 .recover a:hover{
-    color:blue;
+    color:#00777a; /* optional darker shade on hover */
     text-decoration:underline;
 }
+
 .btn{
     font-size:1.1rem;
     padding:8px 0;
@@ -86,24 +100,28 @@ input:focus~label,input:not(:placeholder-shown)~label{
     outline:none;
     border:none;
     width:100%;
-    background:rgb(125,125,235);
+    background:#00a19e; /* updated button color */
     color:white;
     cursor:pointer;
     transition:0.9s;
 }
+
 .btn:hover{
-    background:#07001f;
+    background:#00777a; /* slightly darker on hover */
 }
+
 .or{
     font-size:1.1rem;
     margin-top:0.5rem;
     text-align:center;
 }
+
 .icons{
     text-align:center;
 }
+
 .icons i{
-    color:rgb(125,125,235);
+    color:#00a19e; /* updated icons color to match button */
     padding:0.8rem 1.5rem;
     border-radius:10px;
     font-size:1.5rem;
@@ -112,11 +130,13 @@ input:focus~label,input:not(:placeholder-shown)~label{
     margin:0 15px;
     transition:1s;
 }
+
 .icons i:hover{
     background:#07001f;
     font-size:1.6rem;
-    border:2px solid rgb(125,125,235);
+    border:2px solid #00a19e; /* match button color */
 }
+
 .links{
     display:flex;
     justify-content:space-around;
@@ -124,14 +144,16 @@ input:focus~label,input:not(:placeholder-shown)~label{
     margin-top:0.9rem;
     font-weight:bold;
 }
+
 button{
-    color:rgb(125,125,235);
+    color:#00a19e; /* updated for any other buttons */
     border:none;
     background-color:transparent;
     font-size:1rem;
     font-weight:bold;
 }
+
 button:hover{
     text-decoration:underline;
-    color:blue;
+    color:#00777a;
 }
