@@ -1,43 +1,49 @@
 <?php
-
-include 'connect.php';
+include '../config/database.php'; // this defines $pdo
+session_start();
 
 if (isset($_POST['signUp'])) {
-    $firstName = $_POST['fName'];
-    $lastName = $_POST['lName'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $password = md5($password);
+    $username   = trim($_POST['username']);
+    $email      = trim($_POST['email']);
+    $password   = md5($_POST['password']);
+    $ville      = trim($_POST['ville']);
+    $pays       = trim($_POST['pays']);
+    $user_type  = 'user';        // default value
+    $status     = 1;             // active by default
+    $created_at = date('Y-m-d H:i:s');
 
-    $checkEmail = "SELECT * From users where email='$email'";
-    $result = $conn->query($checkEmail);
-    if ($result->num_rows > 0) {
-        echo "Email Address Already Exists !";
+    // Check if username OR email exists
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
+    $stmt->execute([$email, $username]);
+
+    if ($stmt->rowCount() > 0) {
+        echo "Username or Email already exists!";
     } else {
-        $insertQuery = "INSERT INTO users(firstName,lastName,email,password)
-                       VALUES ('$firstName','$lastName','$email','$password')";
-        if ($conn->query($insertQuery) == TRUE) {
-            header("location: index.php");
+        $insert = $pdo->prepare("INSERT INTO users (username, email, password, ville, pays, user_type, status, created_at) 
+                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        if ($insert->execute([$username, $email, $password, $ville, $pays, $user_type, $status, $created_at])) {
+            header("Location: index.php");
+            exit();
         } else {
-            echo "Error:" . $conn->error;
+            echo "Error inserting user!";
         }
     }
 }
 
 if (isset($_POST['signIn'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $password = md5($password);
+    $email    = trim($_POST['email']);
+    $password = md5($_POST['password']);
 
-    $sql = "SELECT * FROM users WHERE email='$email' and password='$password'";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        session_start();
-        $row = $result->fetch_assoc();
-        $_SESSION['email'] = $row['email'];
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
+    $stmt->execute([$email, $password]);
+
+    if ($stmt->rowCount() > 0) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['username'] = $user['username']; // store username for homepage
         header("Location: homepage.php");
         exit();
     } else {
-        echo "Not Found, Incorrect Email or Password";
+        echo "Incorrect Email or Password!";
     }
 }
