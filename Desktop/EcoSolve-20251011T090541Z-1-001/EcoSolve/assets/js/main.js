@@ -204,4 +204,41 @@
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
+
+  /**
+   * Gestion du clic sur l'icône de notification
+   */
+const notificationBtn = document.querySelector('.btn-notification');
+const notifBox = document.getElementById('notif-box');
+
+console.log('Debug: Bouton trouvé ?', notificationBtn); // Vérifie si le bouton est trouvé
+console.log('Debug: Boîte trouvée ?', notifBox); // Vérifie si la boîte est trouvée
+
+if (notificationBtn && notifBox) {
+  notificationBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    console.log('Debug: Clic sur bouton détecté !'); // Trace le clic
+    
+    notifBox.classList.toggle('active');
+    
+    // Cacher le badge (recherche dans le bouton cliqué)
+    const badge = this.querySelector('.badge');
+    console.log('Debug: Badge trouvé ?', badge); // Vérifie si le badge est trouvé
+    
+    if (badge) {
+      badge.classList.add('d-none');
+      console.log('Debug: Badge caché !'); // Confirme la cache
+    } else {
+      console.log('Erreur: Pas de badge trouvé !'); // Si pas trouvé
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!notifBox.contains(e.target) && !notificationBtn.contains(e.target)) {
+      notifBox.classList.remove('active');
+    }
+  });
+} else {
+  console.log('Erreur: Bouton ou boîte non trouvés au chargement !');
+}
 })();

@@ -76,22 +76,46 @@
           <h1 class="sitename">EcoSolve</h1>
         </a>
 
-        <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="#hero" class="active">Accueil</a></li>
-            <li><a href="#about">À propos</a></li>
-            <li><a href="#features">Fonctionnalités</a></li>
-            <li><a href="#signalement">Signalement</a></li>
-            <li><a href="#participation"> Opportunités </a></li>
-            <li><a href="#stats">Statistiques</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
-        <!-- Change redirection link to authentication page -->
-        <a class="btn-getstarted" href="#signalement">S'inscrire</a>
-      </div>
-    </header>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Accueil</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#features">Fonctionnalités</a></li>
+          <li><a href="#signalement">Signalement</a></li>
+          <li><a href="#participation"> Opportunités </a></li>
+          <li><a href="#stats">Statistiques</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+      <!-- Change redirection link to authentication page -->
+      <!-- Groupe de boutons à droite : S'inscrire + Notifications -->
+      <!-- Groupe de boutons à droite : S'inscrire + Notifications -->
+<div class="d-flex align-items-center gap-4">  
+  <a class="btn-getstarted" href="#signalement">S'inscrire</a>
+  <a href="#notifications" class="btn-notification position-relative" title="Notifications">
+    <i class="bi bi-bell fs-5"></i>  
+    <!-- Badge rouge circulaire positionné sur l'icône (haut droite, superposé comme dans l'image) -->
+    <span class="badge bg-danger rounded-circle position-absolute top-0 end-0 translate-middle mt-n2 me-n2" style="font-size: 0.6em; width: 18px; height: 18px; line-height: 1;">3</span>
+  </a>
+  <!-- Boîte de notifications (sans display:none inline – gérée en CSS) -->
+  <div id="notif-box">
+  <!-- Wrapper pour le scroll (ajouté pour isoler le contenu scrollable) -->
+  <div class="notif-scrollable">
+    <ul style="list-style:none; margin:0; padding:0;">
+      <li><strong>Nouvelle opportunité près de chez vous !</strong> <small>(il y a 2h)</small></li>
+      <li><strong>Signalement résolu : Merci pour votre aide !</strong> <small>(il y a 4h)</small></li>
+      <li><strong>3 nouveaux problèmes dans votre zone.</strong> <small>(hier)</small></li>
+      <!-- Ajoute plus d'items pour tester le scroll -->
+      <li><strong>Autre notif 4</strong> <small>(hier)</small></li>
+      <li><strong>Autre notif 5</strong> <small>(il y a 3j)</small></li>
+      <li><strong>Autre notif 6</strong> <small>(il y a 5j)</small></li>
+      <li><strong>Autre notif 7</strong> <small>(il y a 6j)</small></li>
+    </ul>
+  </div>
+</div>
+</div>
+  </header>
 
     <main class="main">
       <!-- Hero Section -->
