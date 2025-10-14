@@ -76,22 +76,30 @@
           <h1 class="sitename">EcoSolve</h1>
         </a>
 
-        <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="#hero" class="active">Accueil</a></li>
-            <li><a href="#about">À propos</a></li>
-            <li><a href="#features">Fonctionnalités</a></li>
-            <li><a href="#signalement">Signalement</a></li>
-            <li><a href="#participation"> Opportunités </a></li>
-            <li><a href="#stats">Statistiques</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
-        <!-- Change redirection link to authentication page -->
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Accueil</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#features">Fonctionnalités</a></li>
+          <li><a href="#signalement">Signalement</a></li>
+          <li><a href="#participation"> Opportunités </a></li>
+          <li><a href="#stats">Statistiques</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+      <!-- Change redirection link to authentication page -->
+      <!-- Groupe de boutons à droite : S'inscrire + Notifications -->
+      <div class="d-flex align-items-center gap-2">  <!-- Wrapper pour aligner horizontalement avec un petit espace -->
         <a class="btn-getstarted" href="#signalement">S'inscrire</a>
+        <a href="#notifications" class="btn-notification" title="Notifications">  <!-- Lien vers une section notifications (adapte l'href) -->
+          <i class="bi bi-bell fs-5"></i>  <!-- Icône cloche (bell), taille moyenne (fs-5) -->
+          <!-- Optionnel : Ajoute un badge rouge pour indiquer des notifications non lues -->
+          <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle" style="font-size: 0.6em;">3</span>
+        </a>
       </div>
-    </header>
+        </div>
+  </header>
 
     <main class="main">
       <!-- Hero Section -->
