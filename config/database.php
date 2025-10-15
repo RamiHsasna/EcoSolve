@@ -1,20 +1,39 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ecosolve_db";
+class Database {
+    private static ?Database $instance = null;
+    private string $host = "localhost";
+    private string $db_name = "ecosolve_db";
+    private string $username = "root";
+    private string $password = "";
+    private ?PDO $conn = null;
 
-try {
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Connected silently
-} catch (PDOException $e) {
-    // Log the technical error for debugging (optional)
-    error_log("Database connection error: " . $e->getMessage());
+    // Make constructor private to enforce singleton usage
+    private function __construct() {
+        try {
+            $this->conn = new PDO(
+                "mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=utf8",
+                $this->username,
+                $this->password,
+                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+            );
+        } catch (PDOException $exception) {
+            // Re-throw as Exception so calling code can handle it
+            throw new Exception("Connection error: " . $exception->getMessage());
+        }
+    }
 
-    // Show a user-friendly message
-    echo "<p style='color:red; text-align:center; margin-top:20px;'>
-            ❌ Unable to connect to the database. Please try again later.
-          </p>";
-    exit;
+    // Return singleton instance
+    public static function getInstance(): Database {
+        if (self::$instance === null) {
+            self::$instance = new Database();
+        }
+        return self::$instance;
+    }
+
+    // Return the PDO connection
+    public function getConnection(): PDO {
+        return $this->conn;
+    }
 }
+?>
+>>>>>>> 37925ba (Implement EcoEvent creation functionality with database integration)
