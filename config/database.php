@@ -35,5 +35,3 @@ class Database {
         return $this->conn;
     }
 }
-?>
->>>>>>> 37925ba (Implement EcoEvent creation functionality with database integration)

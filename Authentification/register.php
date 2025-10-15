@@ -1,6 +1,13 @@
 <?php
-include '../config/database.php'; // this defines $pdo
+include '../config/database.php'; // this defines the Database class
 session_start();
+
+// Get database connection
+try {
+    $pdo = Database::getInstance()->getConnection();
+} catch (Exception $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
 
 if (isset($_POST['signUp'])) {
     $username   = trim($_POST['username']);

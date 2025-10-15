@@ -8,6 +8,13 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 include '../config/database.php'; // DB connection
 
+// Get database connection
+try {
+    $pdo = Database::getInstance()->getConnection();
+} catch (Exception $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
 $message = ""; // Initialize message
 
 if (isset($_POST['reset'])) {

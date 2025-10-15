@@ -1,6 +1,13 @@
 <?php
 include '../config/database.php';
 
+// Get database connection
+try {
+    $pdo = Database::getInstance()->getConnection();
+} catch (Exception $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
 $message = "";
 $showForm = false;
 
