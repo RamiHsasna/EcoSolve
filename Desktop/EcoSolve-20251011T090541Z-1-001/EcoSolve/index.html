@@ -64,46 +64,48 @@
 
   <body class="index-page">
     <header id="header" class="header d-flex align-items-center fixed-top">
+      <!-- ICI : Le div conteneur principal – il englobe TOUT le contenu du header -->
       <div
         class="container position-relative d-flex align-items-center justify-content-between"
       >
+        <!-- Logo à gauche -->
         <a
           href="index.html"
           class="logo d-flex align-items-center me-auto me-xl-0"
         >
-          <!-- Uncomment the line below if you also wish to use an image logo -->
-          <!-- <img src="assets/img/logo.webp" alt=""> -->
           <h1 class="sitename">EcoSolve</h1>
         </a>
 
+        <!-- Menu de navigation (centré ou à droite sur desktop) -->
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a href="#hero" class="active">Accueil</a></li>
             <li><a href="#about">À propos</a></li>
             <li><a href="#features">Fonctionnalités</a></li>
             <li><a href="#signalement">Signalement</a></li>
-            <li><a href="#participation"> Opportunités </a></li>
+            <li><a href="#participation">Opportunités</a></li>
             <li><a href="#stats">Statistiques</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-        <!-- Change redirection link to authentication page -->
-        <!-- Groupe de boutons à droite : S'inscrire + Notifications -->
-        <div class="d-flex align-items-center gap-2">
-          <!-- Wrapper pour aligner horizontalement avec un petit espace -->
+
+        <!-- Boutons à droite (S'inscrire + Notifications) -->
+        <div class="d-flex align-items-center gap-4 position-relative">
           <a
             class="btn-getstarted"
             href="http://localhost/EcoSolve/Authentification/index.php"
             >S'inscrire</a
           >
+
+          <!-- Bouton notification -->
           <a
             href="#notifications"
             class="btn-notification position-relative"
-            title="Notifications"
+            aria-label="Notifications"
+            role="button"
           >
             <i class="bi bi-bell fs-5"></i>
-            <!-- Badge rouge circulaire positionné sur l'icône (haut droite, superposé comme dans l'image) -->
             <span
               class="badge bg-danger rounded-circle position-absolute top-0 end-0 translate-middle mt-n2 me-n2"
               style="
@@ -115,41 +117,68 @@
               >3</span
             >
           </a>
-          <!-- Boîte de notifications (sans display:none inline – gérée en CSS) -->
-          <div id="notif-box">
-            <!-- Wrapper pour le scroll (ajouté pour isoler le contenu scrollable) -->
-            <div class="notif-scrollable">
-              <ul style="list-style: none; margin: 0; padding: 0">
-                <li>
-                  <strong>Nouvelle opportunité près de chez vous !</strong>
-                  <small>(il y a 2h)</small>
-                </li>
-                <li>
-                  <strong>Signalement résolu : Merci pour votre aide !</strong>
-                  <small>(il y a 4h)</small>
-                </li>
-                <li>
-                  <strong>3 nouveaux problèmes dans votre zone.</strong>
-                  <small>(hier)</small>
-                </li>
-                <!-- Ajoute plus d'items pour tester le scroll -->
-                <li><strong>Autre notif 4</strong> <small>(hier)</small></li>
-                <li>
-                  <strong>Autre notif 5</strong> <small>(il y a 3j)</small>
-                </li>
-                <li>
-                  <strong>Autre notif 6</strong> <small>(il y a 5j)</small>
-                </li>
-                <li>
-                  <strong>Autre notif 7</strong> <small>(il y a 6j)</small>
-                </li>
-              </ul>
+
+          <!-- Boîte de notifications (dropdown) -->
+          <div id="notif-box" class="notification-dropdown">
+            <div class="notification-header">
+              <h6 class="mb-0">
+                Notifications <span class="badge bg-primary ms-2">3</span>
+              </h6>
+              <button
+                type="button"
+                class="btn-close btn-close-white"
+                id="close-notif"
+                aria-label="Fermer"
+              ></button>
+            </div>
+            <div class="notification-list">
+              <a href="#" class="notification-item unread">
+                <div class="notification-icon">
+                  <i class="bi bi-exclamation-triangle text-warning"></i>
+                </div>
+                <div class="notification-content">
+                  <h6 class="mb-1">Nouveau signalement de pollution</h6>
+                  <p class="mb-1 text-muted small">
+                    Rue de la Paix, quartier central
+                  </p>
+                  <small class="text-muted">Il y a 2 minutes</small>
+                </div>
+              </a>
+              <a href="#" class="notification-item unread">
+                <div class="notification-icon">
+                  <i class="bi bi-check-circle text-success"></i>
+                </div>
+                <div class="notification-content">
+                  <h6 class="mb-1">Problème résolu : Déchets ramassés</h6>
+                  <p class="mb-1 text-muted small">Par l'équipe locale</p>
+                  <small class="text-muted">Il y a 1 heure</small>
+                </div>
+              </a>
+              <a href="#" class="notification-item">
+                <div class="notification-icon">
+                  <i class="bi bi-people text-info"></i>
+                </div>
+                <div class="notification-content">
+                  <h6 class="mb-1">Nouvelle opportunité de participation</h6>
+                  <p class="mb-1 text-muted small">
+                    Nettoyage de plage ce weekend
+                  </p>
+                  <small class="text-muted">Il y a 3 heures</small>
+                </div>
+              </a>
+            </div>
+            <div class="notification-footer">
+              <a
+                href="#notifications"
+                class="text-center d-block py-2 text-muted small"
+                >Voir toutes les notifications</a
+              >
             </div>
           </div>
         </div>
       </div>
+      <!-- FIN du div conteneur principal -->
     </header>
-
     <main class="main">
       <!-- Hero Section -->
       <section id="hero" class="hero section">
@@ -1283,10 +1312,7 @@
             class="col-lg-3 col-md-12 footer-contact text-center text-md-start"
           >
             <h4>Contact</h4>
-            <p>Monastir,Tunisia</p>
-            <p></p>
-            <p>Tunisia</p>
-
+            <p>Monastir, Tunisia</p>
             <p><strong>Email:</strong> <span>contact@ecosolve.tn</span></p>
           </div>
         </div>
@@ -1329,6 +1355,35 @@
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Script pour la notification dropdown -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const notifBtn = document.querySelector(".btn-notification");
+        const notifBox = document.getElementById("notif-box");
+        const closeNotif = document.getElementById("close-notif");
+
+        if (notifBtn && notifBox) {
+          notifBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            notifBox.classList.toggle("show");
+          });
+        }
+
+        if (closeNotif && notifBox) {
+          closeNotif.addEventListener("click", function () {
+            notifBox.classList.remove("show");
+          });
+        }
+
+        // Fermer si clic en dehors
+        document.addEventListener("click", function (e) {
+          if (!notifBox.contains(e.target) && !notifBtn.contains(e.target)) {
+            notifBox.classList.remove("show");
+          }
+        });
+      });
+    </script>
 
     <!-- Script simple pour initialiser une carte Leaflet (exemple dans hero ou features) -->
     <script>
