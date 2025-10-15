@@ -4155,3 +4155,78 @@ section,
 /*--------------------------------------------------------------
 # Starter Section Section
 --------------------------------------------------------------*/
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 350px;
+  background: var(--surface-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 8px;
+  box-shadow: 0 0.5rem 1rem color-mix(in srgb, var(--default-color), transparent 85%);
+  z-index: 1050;
+  margin-top: 10px;
+}
+
+.notification-dropdown.show {
+  display: block;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.notification-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: var(--default-color);
+  border-bottom: 1px solid color-mix(in srgb, var(--surface-color), var(--default-color) 5%);
+  transition: background 0.2s;
+}
+
+.notification-item:hover {
+  background: color-mix(in srgb, var(--surface-color), var(--default-color) 5%);
+}
+
+.notification-item.unread {
+  background: color-mix(in srgb, var(--surface-color), var(--default-color) 3%);
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.notification-content h6 {
+  margin: 0;
+  color: var(--heading-color);
+}
+
+.notification-content p, .notification-content small {
+  margin: 0;
+}
+
+.notification-footer {
+  padding: 8px 16px;
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.btn-notification {
+  cursor: pointer;
+}
