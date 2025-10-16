@@ -83,8 +83,8 @@
             <li><a href="#about">À propos</a></li>
             <li><a href="#features">Fonctionnalités</a></li>
             <li><a href="#signalement">Signalement</a></li>
-            <li><a href="#participation">Opportunités</a></li>
-            <li><a href="#stats">Statistiques</a></li>
+            <li><a href="#participation"> Opportunités </a></li>
+            <li><a href="#stats">Tableau de Bord</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -462,7 +462,7 @@
                     <i class="bi bi-graph-up"></i>
                   </div>
                   <div class="tab-content">
-                    <h5>Statistiques</h5>
+                    <h5>Tableau de Bord</h5>
                     <span>Suivez l'impact</span>
                   </div>
                 </a>
@@ -986,156 +986,135 @@
         </div>
       </section>
 
-      <!-- Stats Section -->
-      <section id="stats" class="stats section">
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-          <div class="row">
-            <div
-              class="col-lg-8 mx-auto text-center mb-5"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <h3 class="main-headline">Mesurez l'Impact de Vos Actions</h3>
-              <p class="main-description">
-                Suivez les statistiques en temps réel pour voir comment EcoSolve
-                transforme votre quartier.
-              </p>
+     <!-- Stats Section -->
+<section id="stats" class="stats section">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="section-title" data-aos="fade-up">
+      <span class="description-title">Tableau de Bord</span>
+      <h2>Dashboard Admin</h2>
+      <p>Gérez les utilisateurs et les opportunités pour une ville durable</p>
+    </div>
 
-              <div
-                class="achievement-badge"
-                data-aos="zoom-in"
-                data-aos-delay="300"
-              >
-                <div class="achievement-content">
-                  <div class="achievement-icon">
-                    <i class="bi bi-graph-up-arrow"></i>
-                  </div>
-                  <div class="achievement-details">
-                    <div class="achievement-title">Impact Mesuré</div>
-                    <div class="achievement-subtitle">
-                      Plus de 500 signalements traités
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <style>
+      /* Scoped styles for the stats section to avoid conflicts */
+      .stats .card {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        margin-bottom: 30px;
+      }
+      .stats .card h3 {
+        background-color: #0d6efd;
+        color: white;
+        padding: 10px;
+        border-radius: 10px 10px 0 0;
+        margin: 0;
+      }
+      .stats .table th {
+        background-color: #e9ecef;
+      }
+    </style>
 
-          <div class="stats-grid">
-            <div class="row g-4">
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <div class="stat-item">
-                  <div class="stat-icon">
-                    <i class="bi bi-exclamation-triangle"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="500"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span>
-                    </div>
-                    <div class="stat-label">Problèmes Signalés</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+20% ce mois</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div class="container-fluid" data-aos="fade-up" data-aos-delay="200">
+      <div class="row">
+        <!-- Utilisateurs -->
+        <div class="col-md-6" data-aos="fade-right" data-aos-delay="300">
+          <div class="card">
+            <h3>Utilisateurs</h3>
+            <div class="card-body">
+              <table class="table table-bordered table-hover align-middle text-center">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php if (!empty($users)): ?>
+                    <?php foreach($users as $user): ?>
+                      <tr>
+                        <td><?= htmlspecialchars($user['id']) ?></td>
+                        <td><?= htmlspecialchars($user['username']) ?></td>
+                        <td><?= htmlspecialchars($user['email']) ?></td>
+                        <td><?= ucfirst(htmlspecialchars($user['status'])) ?></td>
+                        <td>
+                          <form method="POST" action="index.php?controller=admin&action=updateUser" style="display:inline-block">
+                            <input type="hidden" name="user_id" value="<?= htmlspecialchars($user['id']) ?>">
+                            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                             <option value="active" <?= $user['status'] == 'active' ? 'selected' : '' ?>>Active</option>
+<option value="inactive" <?= $user['status'] == 'inactive' ? 'selected' : '' ?>>Inactive</option>
+<option value="banned" <?= $user['status'] == 'banned' ? 'selected' : '' ?>>Banned</option>
 
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="200"
-              >
-                <div class="stat-item featured">
-                  <div class="stat-icon">
-                    <i class="bi bi-check-circle"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="85"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span
-                      >%
-                    </div>
-                    <div class="stat-label">Résolus</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+10% d'amélioration</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="300"
-              >
-                <div class="stat-item">
-                  <div class="stat-icon">
-                    <i class="bi bi-people"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="1000"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span>
-                    </div>
-                    <div class="stat-label">Participants</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+15% ce trimestre</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="400"
-              >
-                <div class="stat-item">
-                  <div class="stat-icon">
-                    <i class="bi bi-geo-alt"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="50"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span>
-                    </div>
-                    <div class="stat-label">Zones Couvertes</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+5 nouvelles zones</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                            </select>
+                          </form>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <tr><td colspan="5" class="text-muted">Aucun utilisateur trouvé.</td></tr>
+                  <?php endif; ?>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-      </section>
-      <!-- /Stats Section -->
+
+        <!-- Opportunités -->
+        <div class="col-md-6" data-aos="fade-left" data-aos-delay="300">
+          <div class="card">
+            <h3>Opportunités</h3>
+            <div class="card-body">
+              <table class="table table-bordered table-hover align-middle text-center">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Ville</th>
+                    <th>Catégorie</th>
+                    <th>Utilisateur</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php if (!empty($opportunities)): ?>
+                    <?php foreach($opportunities as $opp): ?>
+                      <tr>
+                        <td><?= htmlspecialchars($opp['id']) ?></td>
+                        <td><?= htmlspecialchars($opp['event_name']) ?></td>
+                        <td><?= htmlspecialchars($opp['ville']) ?></td>
+                        <td><?= htmlspecialchars($opp['category_name']) ?></td>
+                        <td><?= htmlspecialchars($opp['username']) ?></td>
+                        <td><?= ucfirst(str_replace('_', ' ', htmlspecialchars($opp['status']))) ?></td>
+                        <td>
+                          <form method="POST" action="index.php?controller=admin&action=updateOpportunity">
+                            <input type="hidden" name="event_id" value="<?= htmlspecialchars($opp['id']) ?>">
+                            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                              <option value="pending" <?= $opp['status'] == 'pending' ? 'selected' : '' ?>>Pending</option>
+                              <option value="approved" <?= $opp['status'] == 'approved' ? 'selected' : '' ?>>Approved</option>
+                              <option value="in_progress" <?= $opp['status'] == 'in_progress' ? 'selected' : '' ?>>In Progress</option>
+                              <option value="completed" <?= $opp['status'] == 'completed' ? 'selected' : '' ?>>Completed</option>
+                              <option value="cancelled" <?= $opp['status'] == 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
+                            </select>
+                          </form>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <tr><td colspan="7" class="text-muted">Aucune opportunité trouvée.</td></tr>
+                  <?php endif; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Stats Section -->
 
       <!-- Contact Section -->
       <section id="contact" class="contact section light-background">
