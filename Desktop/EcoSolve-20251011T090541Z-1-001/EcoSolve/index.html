@@ -100,80 +100,34 @@
           </a>
 
           <!-- Bouton notification -->
-          <a
-            href="#notifications"
-            class="btn-notification position-relative"
-            aria-label="Notifications"
-            role="button"
-          >
-            <i class="bi bi-bell fs-5"></i>
-            <span
-              class="badge bg-danger rounded-circle position-absolute top-0 end-0 translate-middle mt-n2 me-n2"
-              style="
-                font-size: 0.6em;
-                width: 18px;
-                height: 18px;
-                line-height: 1;
-              "
-              >3</span
-            >
-          </a>
+          <!-- Bouton notification -->
+<a href="#notifications" class="btn-notification position-relative" aria-label="Notifications" role="button">
+  <i class="bi bi-bell fs-5"></i>
+  <span class="badge bg-danger rounded-circle position-absolute top-0 end-0 translate-middle mt-n2 me-n2" style="font-size: 0.6em; width: 18px; height: 18px; line-height: 1;" id="notif-badge">0</span>  <!-- Changé 3 → 0 -->
+</a>
+            
 
           <!-- Boîte de notifications (dropdown) -->
           <div id="notif-box" class="notification-dropdown">
             <div class="notification-header">
               <h6 class="mb-0">
-                Notifications <span class="badge bg-primary ms-2">3</span>
-              </h6>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                id="close-notif"
-                aria-label="Fermer"
-              ></button>
+Notifications <span class="badge bg-primary ms-2" id="notif-count">0</span>  <!-- Ajout ID + changé 3 → 0 -->              </h6>
+             <button type="button" class="btn-close btn-close-white" id="close-notif" aria-label="Fermer"></button>
             </div>
-            <div class="notification-list">
-              <a href="#" class="notification-item unread">
-                <div class="notification-icon">
-                  <i class="bi bi-exclamation-triangle text-warning"></i>
-                </div>
-                <div class="notification-content">
-                  <h6 class="mb-1">Nouveau signalement de pollution</h6>
-                  <p class="mb-1 text-muted small">
-                    Rue de la Paix, quartier central
-                  </p>
-                  <small class="text-muted">Il y a 2 minutes</small>
-                </div>
-              </a>
-              <a href="#" class="notification-item unread">
-                <div class="notification-icon">
-                  <i class="bi bi-check-circle text-success"></i>
-                </div>
-                <div class="notification-content">
-                  <h6 class="mb-1">Problème résolu : Déchets ramassés</h6>
-                  <p class="mb-1 text-muted small">Par l'équipe locale</p>
-                  <small class="text-muted">Il y a 1 heure</small>
-                </div>
-              </a>
-              <a href="#" class="notification-item">
-                <div class="notification-icon">
-                  <i class="bi bi-people text-info"></i>
-                </div>
-                <div class="notification-content">
-                  <h6 class="mb-1">Nouvelle opportunité de participation</h6>
-                  <p class="mb-1 text-muted small">
-                    Nettoyage de plage ce weekend
-                  </p>
-                  <small class="text-muted">Il y a 3 heures</small>
-                </div>
-              </a>
+<div class="notification-list" id="notif-list">
+                <!-- Les notifications seront injectées ici dynamiquement par JS -->
+      <div class="loading-notif text-center py-3">
+        <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+        <small class="d-block text-muted mt-1">Chargement...</small>
+      </div>
+               
+              
+              
+              
             </div>
             <div class="notification-footer">
-              <a
-                href="#notifications"
-                class="text-center d-block py-2 text-muted small"
-                >Voir toutes les notifications</a
-              >
+             <a href="#opportunites" class="text-center d-block py-2 text-muted small">Voir toutes les opportunités</a>
+             
             </div>
           </div>
         </div>
@@ -1357,33 +1311,9 @@
     <script src="assets/js/main.js"></script>
 
     <!-- Script pour la notification dropdown -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const notifBtn = document.querySelector(".btn-notification");
-        const notifBox = document.getElementById("notif-box");
-        const closeNotif = document.getElementById("close-notif");
+    <!-- Script pour la notification dropdown -->
+<!-- Script pour la notification dropdown -->
 
-        if (notifBtn && notifBox) {
-          notifBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            notifBox.classList.toggle("show");
-          });
-        }
-
-        if (closeNotif && notifBox) {
-          closeNotif.addEventListener("click", function () {
-            notifBox.classList.remove("show");
-          });
-        }
-
-        // Fermer si clic en dehors
-        document.addEventListener("click", function (e) {
-          if (!notifBox.contains(e.target) && !notifBtn.contains(e.target)) {
-            notifBox.classList.remove("show");
-          }
-        });
-      });
-    </script>
 
     <!-- Script simple pour initialiser une carte Leaflet (exemple dans hero ou features) -->
     <script>

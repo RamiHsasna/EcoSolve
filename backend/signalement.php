@@ -101,7 +101,32 @@ try {
 
         $controller = new EcoEventController();
         $result = $controller->createEvent($event);
+// NOUVEAU : Créer notifications pour users de la même ville (après createEvent)
+if ($result && isset($result['id'])) {
+    $event_id = $result['id'];
+    $title = "Nouvelle opportunité : " . $titre;
+    $message = "Action locale à {$ville} : " . substr($description, 0, 100) . "...";
+    $link = "index.php?event_id={$event_id}";  // Lien vers détails
 
+    // Query users actifs de la même ville (exclut créateur)
+    $userStmt = $db->prepare("SELECT id FROM users WHERE ville = :ville AND id != :creator_id AND status = 'active'");
+    $userStmt->execute(['ville' => $ville, 'creator_id' => $userId]);
+    $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($users as $user) {
+        $notifStmt = $db->prepare("INSERT INTO notifications (type, user_id, title, message, link) VALUES ('event_created', :user_id, :title, :message, :link)");
+        $notifStmt->execute([
+            'user_id' => $user['id'],
+            'title' => $title,
+            'message' => $message,
+            'link' => $link
+        ]);
+    }
+
+    // Notif pour le créateur (confirmation)
+    $selfStmt = $db->prepare("INSERT INTO notifications (type, user_id, title, message, link) VALUES ('event_update', :user_id, 'Votre événement créé !', 'Partagez-le dans votre quartier.', :link)");
+    $selfStmt->execute(['user_id' => $userId, 'link' => $link]);
+}
         echo json_encode([
             'status' => 'success',
             'message' => 'Event created successfully',
