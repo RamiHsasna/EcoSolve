@@ -1,5 +1,7 @@
 <?php
-require_once 'models/Admin.php';
+require_once __DIR__ . '/../models/Admin.php';
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Opportunity.php';
 
 class AdminController {
     private $adminModel;
@@ -11,7 +13,7 @@ class AdminController {
     public function dashboard() {
         $users = $this->adminModel->getUsers();
         $opportunities = $this->adminModel->getOpportunities();
-        include 'views/admin/dashboard.php';
+        include __DIR__ . '/../views/admin/dashboard.php';
     }
 
     public function updateUser() {
@@ -19,6 +21,7 @@ class AdminController {
             $this->adminModel->updateUserStatus($_POST['user_id'], $_POST['status']);
         }
         header("Location: index.php?controller=admin&action=dashboard");
+        exit;
     }
 
     public function updateOpportunity() {
@@ -26,6 +29,7 @@ class AdminController {
             $this->adminModel->updateOpportunityStatus($_POST['event_id'], $_POST['status']);
         }
         header("Location: index.php?controller=admin&action=dashboard");
+        exit;
     }
 }
 ?>

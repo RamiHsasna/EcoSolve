@@ -1,12 +1,12 @@
 <?php
-require_once 'config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 class Admin {
     private $conn;
 
     public function __construct() {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+        // Use the singleton Database instance
+        $this->conn = Database::getInstance()->getConnection();
     }
 
     // 🔹 Obtenir tous les utilisateurs
