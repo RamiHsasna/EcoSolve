@@ -37,12 +37,14 @@ include '../config/api.php';
                 <select name="pays" id="pays" class="location-select" required>
                     <option value="">Sélectionnez un pays</option>
                 </select>
+                <label for="pays">Pays</label>
             </div>
             <div class="input-group">
                 <i class="fas fa-map-marker-alt"></i>
                 <select name="ville" id="ville" class="location-select" required disabled>
                     <option value="">Sélectionnez d'abord un pays</option>
                 </select>
+                <label for="ville">Ville</label>
             </div>
             <input type="submit" class="btn" value="Sign Up" name="signUp">
         </form>
