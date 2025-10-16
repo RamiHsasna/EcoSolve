@@ -916,26 +916,27 @@
                     </div>
                     <div class="mb-3">
                       <label for="pays" class="form-label">Pays</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="pays"
+                      <select
                         name="pays"
-                        placeholder="Ex: Tunisie"
+                        id="pays"
+                        class="form-select location-select"
                         required
-                      />
+                      >
+                        <option value="">Sélectionnez un pays</option>
+                      </select>
                     </div>
 
                     <div class="mb-3">
                       <label for="ville" class="form-label">Ville</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="ville"
+                      <select
                         name="ville"
-                        placeholder="Ex: Sfax"
+                        id="ville"
+                        class="form-select location-select"
                         required
-                      />
+                        disabled
+                      >
+                        <option value="">Sélectionnez d'abord un pays</option>
+                      </select>
                     </div>
 
                     <div class="mb-3">
@@ -1355,6 +1356,9 @@
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Location Selector Script -->
+    <script src="../../../js/location-selector.js"></script>
 
     <!-- Script pour la notification dropdown -->
     <script>
