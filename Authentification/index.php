@@ -1,3 +1,6 @@
+<?php
+include '../config/api.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,14 +33,18 @@
                 <label for="password">Password</label>
             </div>
             <div class="input-group">
-                <i class="fas fa-map-marker-alt"></i>
-                <input type="text" name="ville" id="ville" placeholder="Ville">
-                <label for="ville">Ville</label>
+                <i class="fas fa-flag"></i>
+                <select name="pays" id="pays" class="location-select" required>
+                    <option value="">Sélectionnez un pays</option>
+                </select>
+                <label for="pays">Pays</label>
             </div>
             <div class="input-group">
-                <i class="fas fa-flag"></i>
-                <input type="text" name="pays" id="pays" placeholder="Pays">
-                <label for="pays">Pays</label>
+                <i class="fas fa-map-marker-alt"></i>
+                <select name="ville" id="ville" class="location-select" required disabled>
+                    <option value="">Sélectionnez d'abord un pays</option>
+                </select>
+                <label for="ville">Ville</label>
             </div>
             <input type="submit" class="btn" value="Sign Up" name="signUp">
         </form>
@@ -75,6 +82,12 @@
 
     <!-- Script for switching forms -->
     <script src="script.js"></script>
+    <!-- Location Selector Script -->
+    <script>
+        // Make API key available to JavaScript
+        const CSC_API_KEY = '<?php echo CSC_API_KEY; ?>';
+    </script>
+    <script src="../js/location-selector.js"></script>
 </body>
 
 </html>
