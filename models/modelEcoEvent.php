@@ -34,5 +34,27 @@ class ModelEcoEvent {
             throw new Exception("Database error: " . $e->getMessage());
         }
     }
+    public function searchEvents($ville = null, $categoryId = null) {
+    $query = "SELECT e.*, c.category_name 
+              FROM eco_event e
+              LEFT JOIN category c ON e.category_id = c.id
+              WHERE 1=1";
+    $params = [];
+
+    if (!empty($ville)) {
+        $query .= " AND e.ville = :ville";
+        $params[':ville'] = $ville;
+    }
+
+    if (!empty($categoryId)) {
+        $query .= " AND e.category_id = :category_id";
+        $params[':category_id'] = $categoryId;
+    }
+
+    $stmt = $this->db->prepare($query);
+    $stmt->execute($params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

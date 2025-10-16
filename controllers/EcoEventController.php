@@ -16,5 +16,8 @@ class EcoEventController {
         echo "<h2>Détails du signalement :</h2>";
         $event->show();
     }
+    public function search($ville = null, $categoryId = null) {
+    return $this->model->searchEvents($ville, $categoryId);
+}
 }
 ?>
