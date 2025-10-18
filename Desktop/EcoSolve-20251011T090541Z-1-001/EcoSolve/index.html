@@ -83,8 +83,14 @@
             <li><a href="#about">À propos</a></li>
             <li><a href="#features">Fonctionnalités</a></li>
             <li><a href="#signalement">Signalement</a></li>
-            <li><a href="#participation">Opportunités</a></li>
-            <li><a href="#stats">Statistiques</a></li>
+            <li><a href="#participation"> Opportunités </a></li>
+
+            <li>
+              <a href="/EcoSolve/public/index.php/tableau_de_bord">
+                Tableau de Bord
+              </a>
+            </li>
+
             <li><a href="#contact">Contact</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -462,7 +468,7 @@
                     <i class="bi bi-graph-up"></i>
                   </div>
                   <div class="tab-content">
-                    <h5>Statistiques</h5>
+                    <h5>Tableau de Bord</h5>
                     <span>Suivez l'impact</span>
                   </div>
                 </a>
@@ -916,26 +922,27 @@
                     </div>
                     <div class="mb-3">
                       <label for="pays" class="form-label">Pays</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="pays"
+                      <select
                         name="pays"
-                        placeholder="Ex: Tunisie"
+                        id="pays"
+                        class="form-select location-select"
                         required
-                      />
+                      >
+                        <option value="">Sélectionnez un pays</option>
+                      </select>
                     </div>
 
                     <div class="mb-3">
                       <label for="ville" class="form-label">Ville</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="ville"
+                      <select
                         name="ville"
-                        placeholder="Ex: Sfax"
+                        id="ville"
+                        class="form-select location-select"
                         required
-                      />
+                        disabled
+                      >
+                        <option value="">Sélectionnez d'abord un pays</option>
+                      </select>
                     </div>
 
                     <div class="mb-3">
@@ -984,157 +991,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Stats Section -->
-      <section id="stats" class="stats section">
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-          <div class="row">
-            <div
-              class="col-lg-8 mx-auto text-center mb-5"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <h3 class="main-headline">Mesurez l'Impact de Vos Actions</h3>
-              <p class="main-description">
-                Suivez les statistiques en temps réel pour voir comment EcoSolve
-                transforme votre quartier.
-              </p>
-
-              <div
-                class="achievement-badge"
-                data-aos="zoom-in"
-                data-aos-delay="300"
-              >
-                <div class="achievement-content">
-                  <div class="achievement-icon">
-                    <i class="bi bi-graph-up-arrow"></i>
-                  </div>
-                  <div class="achievement-details">
-                    <div class="achievement-title">Impact Mesuré</div>
-                    <div class="achievement-subtitle">
-                      Plus de 500 signalements traités
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="stats-grid">
-            <div class="row g-4">
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <div class="stat-item">
-                  <div class="stat-icon">
-                    <i class="bi bi-exclamation-triangle"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="500"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span>
-                    </div>
-                    <div class="stat-label">Problèmes Signalés</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+20% ce mois</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="200"
-              >
-                <div class="stat-item featured">
-                  <div class="stat-icon">
-                    <i class="bi bi-check-circle"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="85"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span
-                      >%
-                    </div>
-                    <div class="stat-label">Résolus</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+10% d'amélioration</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="300"
-              >
-                <div class="stat-item">
-                  <div class="stat-icon">
-                    <i class="bi bi-people"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="1000"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span>
-                    </div>
-                    <div class="stat-label">Participants</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+15% ce trimestre</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="col-xl-3 col-lg-6 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="400"
-              >
-                <div class="stat-item">
-                  <div class="stat-icon">
-                    <i class="bi bi-geo-alt"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-number">
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="50"
-                        data-purecounter-duration="2"
-                        class="purecounter"
-                      ></span>
-                    </div>
-                    <div class="stat-label">Zones Couvertes</div>
-                    <div class="stat-growth">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+5 nouvelles zones</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- /Stats Section -->
 
       <!-- Contact Section -->
       <section id="contact" class="contact section light-background">
@@ -1355,6 +1211,9 @@
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Location Selector Script -->
+    <script src="../../../js/location-selector.js"></script>
 
     <!-- Script pour la notification dropdown -->
     <script>
