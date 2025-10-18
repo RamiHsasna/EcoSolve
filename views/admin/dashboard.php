@@ -20,7 +20,7 @@ body {
 /* Dashboard title */
 h2 {
     text-align: center;
-    color: #2e7d32; /* Deep eco green */
+    color: #00a19e; /* Deep eco green */
     font-weight: 700;
     margin-bottom: 2rem;
 }
@@ -32,7 +32,7 @@ h2 {
 }
 
 .dashboard-nav button {
-    background-color: #6fbf73; /* soft eco green */
+    background-color: #00a19e; /* soft eco green */
     border: none;
     color: white;
     padding: 10px 25px;
@@ -43,12 +43,12 @@ h2 {
 }
 
 .dashboard-nav button:hover {
-    background-color: #5aa55e;
+    background-color: #00a19e;
     transform: translateY(-2px);
 }
 
 .dashboard-nav button.active {
-    background-color: #4b8b4b;
+    background-color: #158684ff;
 }
 
 /* Cards */
@@ -66,7 +66,7 @@ h2 {
 }
 
 .card h3 {
-    background-color: #6fbf73;
+    background-color: #00a19e;
     color: white;
     padding: 15px;
     margin: 0;
@@ -82,7 +82,7 @@ h2 {
 
 .table th {
     background-color: #d8f0db;
-    color: #2e7d32;
+    color: #469694ff;
     font-weight: 600;
 }
 
