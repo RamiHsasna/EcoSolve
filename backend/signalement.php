@@ -39,7 +39,7 @@ try {
         }
         $pays = $_POST['pays'] ?? '';
         $ville = $_POST['ville'] ?? '';
-        
+
         // Handle file upload
         $photoPath = null;
         if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
@@ -47,10 +47,10 @@ try {
             if (!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
-            
+
             $fileName = uniqid() . '_' . basename($_FILES['photo']['name']);
             $uploadFile = $uploadDir . $fileName;
-            
+
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
                 $photoPath = 'uploads/' . $fileName;
             }
@@ -86,8 +86,8 @@ try {
         $event = new EcoEvent(
             $titre,
             $description,
-            $pays,
             $ville,
+            $pays,
             (int)$categorie,
             (int)$userId,
             $eventDate,
@@ -115,4 +115,3 @@ try {
         'message' => $e->getMessage()
     ]);
 }
-?>
