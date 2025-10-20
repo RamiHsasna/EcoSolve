@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
 /* === EcoSolve Dashboard Styling === */
@@ -231,7 +232,7 @@ select.form-select-sm {
                     <tbody>
                         <?php if (!empty($users)): ?>
                             <?php foreach($users as $user): ?>
-                                <tr>
+                                <tr data-user-id="<?= $user['id'] ?>" data-username="<?= htmlspecialchars($user['username'], ENT_QUOTES) ?>" data-email="<?= htmlspecialchars($user['email'], ENT_QUOTES) ?>">
                                     <td><?= $user['id'] ?></td>
                                     <td><?= $user['username'] ?></td>
                                     <td><?= $user['email'] ?></td>
@@ -244,15 +245,14 @@ select.form-select-sm {
                                     </td>
                                      <td>
                                         <div class="d-flex gap-2 justify-content-center">
-                                            <button class="btn btn-sm btn-primary" onclick="editUser(<?= $opp['id'] ?>)">
+                                            <button class="btn btn-sm btn-primary" type="button" onclick="openEditUserModal(<?= $user['id'] ?>)">
                                                 <i class="bi bi-pencil"></i> Modifier
                                             </button>
-                                            <button class="btn btn-sm btn-danger" onclick="deleteUser(<?= $opp['id'] ?>)">
+                                            <button class="btn btn-sm btn-danger" type="button" onclick="deleteUser(<?= $user['id'] ?>)">
                                                 <i class="bi bi-trash"></i> Supprimer 
                                             </button>
                                         </div>
                                     </td>
-                                </tr>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -284,32 +284,32 @@ select.form-select-sm {
                         <tbody>
                             <?php if (!empty($opportunities)): ?>
                                 <?php foreach($opportunities as $opp): ?>
-                                <tr>
-                                        <td><?= $opp['id'] ?></td>
-                                        <td><?= $opp['event_name'] ?></td>
-                                        <td><?= $opp['ville'] ?></td>
-                                        <td><?= $opp['category_name'] ?></td>
-                                        <td><?= $opp['username'] ?></td>                                   
-                                         <td>
-                                        <select name="status" class="form-select form-select-sm w-auto mx-auto" onchange="updateStatus(this, <?= $opp['id'] ?>, 'opportunity')">
-                                            <option value="pending" <?= $opp['status']=='pending'?'selected':'' ?>>En attente</option>
-                                            <option value="approved" <?= $opp['status']=='approved'?'selected':'' ?>>Approuvé</option>
-                                            <option value="in_progress" <?= $opp['status']=='in_progress'?'selected':'' ?>>En cours</option>
-                                            <option value="completed" <?= $opp['status']=='completed'?'selected':'' ?>>Terminé</option>
-                                            <option value="cancelled" <?= $opp['status']=='cancelled'?'selected':'' ?>>Annulé</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-2 justify-content-center">
-                                            <button class="btn btn-sm btn-primary" onclick="editOpportunity(<?= $opp['id'] ?>)">
-                                                <i class="bi bi-pencil"></i> Modifier
-                                            </button>
-                                            <button class="btn btn-sm btn-danger" onclick="deleteOpportunity(<?= $opp['id'] ?>)">
-                                                <i class="bi bi-trash"></i> Supprimer 
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr data-event-id="<?= $opp['id'] ?>" data-event-name="<?= htmlspecialchars($opp['event_name'], ENT_QUOTES) ?>" data-ville="<?= htmlspecialchars($opp['ville'], ENT_QUOTES) ?>" data-category-id="<?= $opp['category_id'] ?>">
+                                            <td><?= $opp['id'] ?></td>
+                                            <td><?= $opp['event_name'] ?></td>
+                                            <td><?= $opp['ville'] ?></td>
+                                            <td><?= $opp['category_name'] ?></td>
+                                            <td><?= $opp['username'] ?></td>                                   
+                                             <td>
+                                            <select name="status" class="form-select form-select-sm w-auto mx-auto" onchange="updateStatus(this, <?= $opp['id'] ?>, 'opportunity')">
+                                                <option value="pending" <?= $opp['status']=='pending'?'selected':'' ?>>En attente</option>
+                                                <option value="approved" <?= $opp['status']=='approved'?'selected':'' ?>>Approuvé</option>
+                                                <option value="in_progress" <?= $opp['status']=='in_progress'?'selected':'' ?>>En cours</option>
+                                                <option value="completed" <?= $opp['status']=='completed'?'selected':'' ?>>Terminé</option>
+                                                <option value="cancelled" <?= $opp['status']=='cancelled'?'selected':'' ?>>Annulé</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-2 justify-content-center">
+                                                <button class="btn btn-sm btn-primary" type="button" onclick="openEditOppModal(<?= $opp['id'] ?>)">
+                                                    <i class="bi bi-pencil"></i> Modifier
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" type="button" onclick="deleteOpportunity(<?= $opp['id'] ?>)">
+                                                    <i class="bi bi-trash"></i> Supprimer 
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr><td colspan="6" class="text-muted">Aucune opportunité trouvée.</td></tr>
@@ -321,45 +321,83 @@ select.form-select-sm {
     </div>
 </div>
 
-<!-- JavaScript to toggle sections and handle updates -->
+<!-- removed duplicate script block (consolidated later) -->
+  
+<!-- EDIT USER MODAL -->
+<div class="modal fade" id="editUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier l'utilisateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="modal_user_id" name="user_id">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" id="modal_username" name="username" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="modal_email" name="email" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveUserBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-function updateStatus(selectElement, id, type) {
-    const newStatus = selectElement.value;
-    const formData = new FormData();
-    
-    if (type === 'opportunity') {
-        formData.append('event_id', id);
-    } else {
-        formData.append('user_id', id);
+// utility: parse JSON safely
+function safeJsonResponse(resp){
+    return resp.text().then(text=>{ try{ return JSON.parse(text); }catch(e){ return {ok: resp.ok, raw:text}; } });
+}
+
+function openEditUserModal(userId){
+    const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+    if(!row) return alert('Utilisateur introuvable');
+    document.getElementById('modal_user_id').value = userId;
+    document.getElementById('modal_username').value = row.dataset.username || '';
+    document.getElementById('modal_email').value = row.dataset.email || '';
+    const myModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+    myModal.show();
+}
+
+document.getElementById('saveUserBtn').addEventListener('click', function(){
+    const form = document.getElementById('editUserForm');
+    const payload = { user_id: form.user_id.value, username: form.username.value, email: form.email.value };
+    fetch('index.php?controller=admin&action=editUser', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+        .then(safeJsonResponse).then(data=>{ if(data && data.success){ location.reload(); } else { alert('Erreur: ' + (data && data.message?data.message: 'erreur')); } })
+        .catch(e=>{ console.error(e); alert('Erreur réseau'); });
+});
+
+
+function deleteUser(userId){ 
+if(!confirm('Supprimer cet utilisateur ?')) return; fetch('index.php?controller=admin&action=deleteUser',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:userId})}).then(safeJsonResponse).then(data=>{ if(data && data.success){ location.reload(); } else alert('Erreur suppression'); }).catch(e=>{console.error(e); alert('Erreur réseau');}); }
+
+function updateStatus(selectElement, id, type){
+    const status = selectElement.value;
+    const payload = (type==='opportunity')?{event_id:id,status}:{user_id:id,status};
+    fetch(`index.php?controller=admin&action=update${type.charAt(0).toUpperCase()+type.slice(1)}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+        .then(safeJsonResponse).then(data=>{ if(!(data && data.success) && !data.ok){ console.error('Update failed', data); alert('Impossible de mettre à jour le statut'); } });
+}
+</script>
+<script>
+// quick runtime check to help debug missing functions
+console.log('debug functions:', 'deleteOpportunity=' + (typeof deleteOpportunity), 'openEditOppModal=' + (typeof openEditOppModal), 'deleteUser=' + (typeof deleteUser), 'openEditUserModal=' + (typeof openEditUserModal));
+</script>
+<script>
+    function showSection(section) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(section).classList.add('active');
+      document.querySelectorAll('.dashboard-nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-' + section).classList.add('active');
     }
-    formData.append('status', newStatus);
-
-    fetch(`index.php?controller=admin&action=update${type.charAt(0).toUpperCase() + type.slice(1)}`, {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        // Check if the status was actually updated
-        if (response.ok || response.status === 200) {
-            // Update was successful
-            console.log('Status updated successfully');
-        } else {
-            throw new Error('Network response was not ok');
-        }
-    })
-    .catch(error => {
-        // Only log the error, don't show alert since the update worked
-        console.error('Error:', error);
-    });
-}
-
-function showSection(section) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(section).classList.add('active');
-    document.querySelectorAll('.dashboard-nav button').forEach(b => b.classList.remove('active'));
-    if(section === 'users') document.getElementById('btn-users').classList.add('active');
-    else document.getElementById('btn-opps').classList.add('active');
-}
 </script>
 
 

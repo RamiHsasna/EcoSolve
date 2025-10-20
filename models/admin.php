@@ -45,5 +45,31 @@ class Admin {
         $stmt->bindParam(':event_id', $event_id);
         return $stmt->execute();
     }
+
+    // Delete a user
+    public function deleteUser($userId){
+        $query = "DELETE FROM users WHERE id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $userId);
+        return $stmt->execute();
+    }
+
+    // Edit user (username, optional email)
+    public function editUser($userId, $username, $email = null){
+        if($email !== null){
+            $query = "UPDATE users SET username = :username, email = :email WHERE id = :user_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':user_id', $userId);
+            return $stmt->execute();
+        } else {
+            $query = "UPDATE users SET username = :username WHERE id = :user_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':user_id', $userId);
+            return $stmt->execute();
+        }
+    }
 }
 ?>

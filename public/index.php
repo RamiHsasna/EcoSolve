@@ -1,6 +1,24 @@
 <?php
 require_once __DIR__ . '/../controllers/AdminController.php';
 
+// If called with query params controller & action, dispatch to controller
+if (isset($_GET['controller'])) {
+    $controllerName = $_GET['controller'];
+    $action = $_GET['action'] ?? 'dashboard';
+    if ($controllerName === 'admin') {
+        $controller = new AdminController();
+        if (method_exists($controller, $action)) {
+            // call the action and exit (controller methods will echo/return JSON or redirect)
+            $controller->{$action}();
+            exit;
+        } else {
+            header("HTTP/1.1 404 Not Found");
+            echo "Unknown action: " . htmlspecialchars($action);
+            exit;
+        }
+    }
+}
+
 // Get the requested URI
 $uri = $_SERVER['REQUEST_URI'];
 
