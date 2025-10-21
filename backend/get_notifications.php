@@ -10,12 +10,13 @@ if (!$user_id) {
     echo json_encode(['error' => 'Utilisateur non authentifié']);
     exit;
 }
-$city = $_GET['city'] ?? $_SESSION['user_city'] ?? '';
+$city = $_GET['city'] ?? $_SESSION['user_city'] ?? '';  // Garde pour futur, mais ignore si vide
 
-if (empty($city)) {
-    echo json_encode([]);
-    exit;
-}
+// VIRE ce check pour toujours query (pas besoin city maintenant)
+// if (empty($city)) {
+//     echo json_encode([]);
+//     exit;
+// }
 
 try {
     $count_only = isset($_GET['count_only']) && $_GET['count_only'] == '1';
@@ -31,7 +32,7 @@ try {
             AND n.type IN ('event_created', 'event_update')
             AND n.created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)
         ");
-        $stmt->execute(['user_id' => $user_id]);
+        $stmt->execute(['user_id' => $user_id]);  // Pas de city
         $count = $stmt->fetch(PDO::FETCH_ASSOC)['unread_count'];
         echo json_encode(['unread_count' => (int)$count]);
         exit;  // Arrête tout ici
@@ -46,18 +47,18 @@ try {
         FROM notifications n
         LEFT JOIN eco_event e ON e.id = CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(n.link, 'event_id=', -1), '&', 1) AS UNSIGNED)
         WHERE n.user_id = :user_id $where_read AND n.type IN ('event_created', 'event_update')
-        AND (e.ville = :city OR e.ville IS NULL OR n.type = 'event_created')  -- Tolérant comme tu l'as
         AND n.created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)
         ORDER BY n.created_at DESC LIMIT 10
     ");
-    $stmt->execute(['user_id' => $user_id, 'city' => $city]);
+    $stmt->execute(['user_id' => $user_id]);  // Pas de 'city' ici !
     $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($notifications as &$notif) {
         $notif['read'] = (bool)$notif['is_read'];
-        $notif['titre'] = $notif['titre_evenement'] ?? $notif['title'];
-        $notif['description'] = $notif['desc_evenement'] ?? $notif['message'];
-        unset($notif['is_read'], $notif['titre_evenement'], $notif['desc_evenement']);  // Nettoyage comme tu l'as
+        $notif['title'] = $notif['titre_evenement'] ?? $notif['title'];
+        $notif['description'] = $notif['desc_evenement'] ?? $notif['description'];
+        $notif['created_at'] = $notif['date'];
+        unset($notif['is_read'], $notif['titre_evenement'], $notif['desc_evenement'], $notif['date']);
     }
 
     echo json_encode($notifications);

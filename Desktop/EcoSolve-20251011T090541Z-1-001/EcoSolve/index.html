@@ -53,7 +53,385 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     />
+  <!-- CSS intégré pour la notification dropdown -->
+<!-- CSS intégré pour la notification dropdown -->
+<!-- CSS intégré pour la notification dropdown -->
+<style>
+  :root {
+    --accent-color: #00a19e; /* Vert teal principal, sans bleu */
+    --success-color: #2ecc71; /* Vert succès */
+    --warning-color: #f39c12; /* Orange avertissement */
+    --info-color: #00a19e; /* Vert info, aligné sur accent */
+    --error-color: #ff4757; /* Rouge erreur pour badge */
+  }
 
+  .notification-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 360px;
+    max-width: 90vw;
+    background: color-mix(in srgb, var(--surface-color), transparent 20%);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid color-mix(in srgb, var(--accent-color), transparent 80%);
+    border-radius: 20px;
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--default-color), transparent 85%);
+    overflow: hidden;
+    z-index: 1000;
+    display: none;
+    animation: fadeInUp 0.4s ease forwards;
+    transform-origin: top right;
+    font-family: var(--body-font, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  }
+
+  .notification-dropdown::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  }
+
+  .notification-dropdown.show {
+    display: block;
+  }
+
+  /* Animation d’apparition douce et professionnelle */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* --- En-tête --- */
+  .notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--accent-color), transparent 80%), transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent-color), transparent 70%);
+    font-family: var(--heading-font, inherit);
+    color: var(--heading-color);
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+
+  .notification-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    opacity: 0.6;
+    border-radius: 2px;
+  }
+
+  .notification-header .title {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .notification-header .badge-count {
+    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 30%));
+    color: var(--contrast-color);
+    padding: 5px 10px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--accent-color), transparent 50%);
+    animation: softPulse 2s infinite ease-in-out;
+  }
+
+  @keyframes softPulse {
+    0%, 100% { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+    50% { 
+      opacity: 0.8; 
+      transform: scale(1.02); 
+    }
+  }
+
+  /* --- Liste --- */
+  .notification-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--accent-color), transparent 30%) transparent;
+  }
+
+  .notification-list::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .notification-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .notification-list::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--accent-color), transparent 30%);
+    border-radius: 3px;
+  }
+
+  .notification-list::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  }
+
+  /* --- Élément --- */
+  .notification-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px 22px;
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    color: var(--default-color);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .notification-item:last-child {
+    border-bottom: none;
+  }
+
+  .notification-item:hover,
+  .notification-item:focus {
+    background: color-mix(in srgb, var(--accent-color), transparent 90%);
+    transform: translateX(2px);
+    outline: none;
+  }
+
+  .notification-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--accent-color), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .notification-item:hover::before {
+    opacity: 1;
+  }
+
+  /* --- Icônes dynamiques --- */
+  .notification-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+    font-size: 20px;
+    color: var(--accent-color);
+    background: color-mix(in srgb, var(--accent-color), transparent 90%);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--accent-color), transparent 80%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+  }
+
+  .notification-item:hover .notification-icon {
+    transform: rotate(4deg) scale(1.05);
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--accent-color), transparent 70%);
+  }
+
+  /* --- Couleurs par type (tout en vert/tons neutres, sans bleu) --- */
+  .notification-icon.success {
+    color: var(--success-color);
+    background: color-mix(in srgb, var(--success-color), transparent 85%);
+  }
+
+  .notification-icon.warning {
+    color: var(--warning-color);
+    background: color-mix(in srgb, var(--warning-color), transparent 85%);
+  }
+
+  .notification-icon.info {
+    color: var(--info-color); /* Vert #00a19e, sans bleu */
+    background: color-mix(in srgb, var(--info-color), transparent 85%);
+  }
+
+  /* --- Texte --- */
+  .notification-content {
+    flex: 1;
+    min-width: 0; /* Pour éviter le débordement */
+  }
+
+  .notification-content h6 {
+    font-size: 15px;
+    margin: 0 0 6px 0;
+    font-weight: 600;
+    color: var(--heading-color);
+    line-height: 1.3;
+  }
+
+  .notification-content p {
+    font-size: 13px;
+    margin: 0;
+    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    line-height: 1.5;
+  }
+
+  .notification-content small {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  /* --- Pied --- */
+  .notification-footer {
+    padding: 16px;
+    text-align: center;
+    background: color-mix(in srgb, var(--surface-color), transparent 10%);
+    border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  }
+
+  .notification-footer a {
+    color: var(--accent-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  .notification-footer a:hover {
+    background: color-mix(in srgb, var(--accent-color), transparent 90%);
+    color: var(--contrast-color);
+    text-shadow: none;
+  }
+
+  /* --- Bouton cloche --- */
+  .btn-notification {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-notification:hover,
+  .btn-notification:focus {
+    background: color-mix(in srgb, var(--accent-color), transparent 90%);
+    transform: rotate(5deg) scale(1.05);
+    outline: none;
+  }
+
+  .btn-notification i {
+    font-size: 24px;
+    color: var(--nav-color);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .btn-notification:hover i {
+    color: var(--accent-color);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--accent-color), transparent 50%);
+  }
+
+  /* --- Badge cloche (en vert au lieu de rouge pour cohérence) --- */
+  .btn-notification .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 30%));
+    color: var(--contrast-color);
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent-color), transparent 50%);
+    animation: badgePop 1.5s infinite ease-in-out;
+  }
+
+  @keyframes badgePop {
+    0%, 100% { 
+      transform: scale(1); 
+    }
+    50% { 
+      transform: scale(1.1); 
+    }
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 576px) {
+    .notification-dropdown {
+      width: 94vw;
+      right: -5px;
+      border-radius: 16px;
+    }
+
+    .notification-item {
+      padding: 14px 16px;
+    }
+
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+    }
+
+    .notification-header {
+      padding: 14px 16px;
+    }
+
+    .notification-header .title {
+      font-size: 16px;
+    }
+
+    .notification-content h6 {
+      font-size: 14px;
+    }
+
+    .notification-content p {
+      font-size: 12px;
+    }
+  }
+
+  /* Amélioration pour l'accessibilité */
+  .notification-item:focus-within {
+    background: color-mix(in srgb, var(--accent-color), transparent 85%);
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .notification-dropdown,
+    .notification-item,
+    .btn-notification,
+    .notification-header .badge-count,
+    .btn-notification .badge {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>
     <!-- =======================================================
   * Template Adapted: Landify for EcoSolve
   * Project: EcoSolve - Plateforme collaborative
@@ -106,7 +484,6 @@
           </a>
 
           <!-- Bouton notification -->
-          <!-- Bouton notification -->
 <a href="#notifications" class="btn-notification position-relative" aria-label="Notifications" role="button">
   <i class="bi bi-bell fs-5"></i>
   <span class="badge bg-danger rounded-circle position-absolute top-0 end-0 translate-middle mt-n2 me-n2" style="font-size: 0.6em; width: 18px; height: 18px; line-height: 1;" id="notif-badge">0</span>  <!-- Changé 3 → 0 -->
@@ -132,7 +509,7 @@ Notifications <span class="badge bg-primary ms-2" id="notif-count">0</span>  <!-
               
             </div>
             <div class="notification-footer">
-             <a href="#opportunites" class="text-center d-block py-2 text-muted small">Voir toutes les opportunités</a>
+             <a href="#participation" class="text-center d-block py-2 text-muted small">Voir toutes les opportunités</a>
              
             </div>
           </div>
@@ -1162,6 +1539,11 @@ Notifications <span class="badge bg-primary ms-2" id="notif-count">0</span>  <!-
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+<script>
+  localStorage.removeItem('userId');
+  localStorage.removeItem('userCity');
+</script>
+
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>

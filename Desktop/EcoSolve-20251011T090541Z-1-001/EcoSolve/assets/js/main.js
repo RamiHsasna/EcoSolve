@@ -211,7 +211,7 @@
       let position = window.scrollY + 200;
       if (
         position >= section.offsetTop &&
-        position <= section.offsetTop + section.offsetHeight
+        position <= section.offsetTop + section.height
       ) {
         document
           .querySelectorAll(".navmenu a.active")
@@ -225,11 +225,11 @@
   window.addEventListener("load", navmenuScrollspy);
   document.addEventListener("scroll", navmenuScrollspy);
 
- /**
- * Notifications Dynamiques (Corrigé)
- */
-/**
- * Notifications Dynamiques (Version Complétée et Fixée)
+  /**
+   * Notifications Dynamiques (Fix Badge & Nouveau sur Ouverture)
+   */
+  /**
+ * Notifications Dynamiques (Fix Badge, Nouveau & TS Error)
  */
 const notificationBtn = document.querySelector('.btn-notification');
 const notifBox = document.getElementById('notif-box');
@@ -238,59 +238,93 @@ const notifBadge = document.getElementById('notif-badge');
 const notifCount = document.getElementById('notif-count');
 const closeNotif = document.getElementById('close-notif');
 
-console.log('Debug: Bouton trouvé ?', notificationBtn);
-console.log('Debug: Boîte trouvée ?', notifBox);
+let userCity = '';
+let userId = '';
 
-// Fonction pour charger les notifications (fetch depuis backend)
-async function loadNotifications(silent = false) {  // silent=true pour refresh sans spinner
-  const userCity = localStorage.getItem('userCity') || 'Sfax';
-  const userId = localStorage.getItem('userId') || 1;  // Dynamique, set après login
-  console.log('Debug: Ville utilisateur:', userCity, 'ID:', userId);
-
-  if (!notifList) {
-    console.error('Erreur: notifList non trouvé');
-    return;
+async function loadUserData() {
+  try {
+    const response = await fetch('/EcoSolve/backend/user_data.php');
+    if (!response.ok) throw new Error('Erreur user data');
+    const data = await response.json();
+    userCity = data.user_city || 'Monastir';
+    userId = data.user_id.toString() || '1';
+    localStorage.setItem('userCity', userCity);
+    localStorage.setItem('userId', userId);
+    console.log('Debug: Ville:', userCity, 'ID:', userId);
+    loadNotificationCount();
+  } catch (e) {
+    console.error('Erreur user data:', e);
+    userCity = localStorage.getItem('userCity') || 'Monastir';
+    userId = localStorage.getItem('userId') || '1';
+    console.log('Debug (fallback): Ville:', userCity, 'ID:', userId);
+    loadNotificationCount();
   }
+}
+
+function loadNotificationCount() {
+  if (!userId) return;
+  const countUrl = `/EcoSolve/backend/get_notifications.php?user_id=${userId}&count_only=1`;
+  console.log('Fetch count:', countUrl);
+  fetch(countUrl)
+    .then(res => res.json())
+    .then(data => updateBadge(data.unread_count || 0))
+    .catch(err => {
+      console.error('Erreur count:', err);
+      updateBadge(0);
+    });
+}
+
+function updateBadge(count) {
+  if (!notifCount || !notifBadge) return;
+  notifCount.textContent = count;
+  notifBadge.textContent = count > 99 ? '99+' : count;
+  notifBadge.style.display = count > 0 ? 'block' : 'none';
+}
+
+async function loadNotifications(silent = false) {
+  if (!notifList || !userId) return;
 
   if (!silent) {
     notifList.innerHTML = `
       <div class="loading-notif text-center py-3">
         <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
-        <small class="d-block text-muted mt-1">Chargement des opportunités à ${userCity}...</small>
+        <small class="d-block text-muted mt-1">Chargement...</small>
       </div>
     `;
   }
 
   try {
-    const response = await fetch(`/EcoSolve/backend/get_notifications.php?city=${encodeURIComponent(userCity)}&user_id=${userId}`);
-    console.log('Debug: Réponse fetch:', response.status);
-    if (!response.ok) {
-      throw new Error('Erreur HTTP: ' + response.status);
-    }
+    const url = `/EcoSolve/backend/get_notifications.php?user_id=${userId}`;
+    console.log('Fetch notifications:', url);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const notifications = await response.json();
+    console.log("Notifs reçues:", notifications);
 
-    if (notifications.length === 0) {
-      notifList.innerHTML = '<p class="text-center text-muted py-3">Aucune nouvelle opportunité dans votre zone.</p>';
+    if (!notifications || notifications.length === 0) {
+      notifList.innerHTML = '<p class="text-center text-muted py-3">Aucune nouvelle notification.</p>';
       updateBadge(0);
       return;
     }
 
     let html = '';
     let unreadCount = 0;
+
     notifications.forEach(notif => {
-      const isUnread = !notif.read;  // Basé sur backend
+      const isUnread = !notif.read;
       if (isUnread) unreadCount++;
+
       html += `
-        <a href="#opportunite-${notif.id}" onclick="markAsRead(${notif.id}); return false;" 
-           class="notification-item d-flex align-items-start p-3 border-bottom ${isUnread ? 'unread' : ''}"
-           style="${isUnread ? 'background-color: rgba(0,123,255,0.1);' : ''}">
+        <a href="${notif.link || '#'}" class="notification-item d-flex align-items-start p-3 border-bottom ${isUnread ? 'unread' : ''}" 
+           style="${isUnread ? 'background-color: rgba(0,123,255,0.1);' : ''}" 
+           onclick="markAsRead(${notif.id}); return false;">
           <div class="notification-icon me-3">
             <i class="bi bi-bell text-primary fs-4"></i>
           </div>
           <div class="notification-content flex-grow-1">
-            <h6 class="mb-1 text-truncate">${notif.titre || notif.title}</h6>
-            <p class="mb-1 text-muted small text-truncate">${notif.description.substring(0, 80)}${notif.description.length > 80 ? '...' : ''}</p>
-            <small class="text-muted">${notif.date}</small>
+            <h6 class="mb-1 text-truncate">${notif.title || notif.description.substring(0,30) || 'Nouvel événement'}</h6>
+            <p class="mb-1 text-muted small text-truncate">${(notif.description || '').substring(0,80)}${(notif.description || '').length > 80 ? '...' : ''}</p>
+            <small class="text-muted">${notif.created_at || 'Date inconnue'}</small>
           </div>
           ${isUnread ? '<span class="badge bg-primary ms-auto">Nouveau</span>' : ''}
         </a>
@@ -299,81 +333,72 @@ async function loadNotifications(silent = false) {  // silent=true pour refresh 
 
     notifList.innerHTML = html;
     updateBadge(unreadCount);
-    console.log('Debug: Notifications chargées:', notifications.length);
+
   } catch (error) {
-    console.error('Erreur fetch notifications:', error);
-    notifList.innerHTML = '<p class="text-center text-muted py-3">Erreur de chargement. Réessayez plus tard.</p>';
+    console.error('Erreur fetch:', error);
+    notifList.innerHTML = '<p class="text-center text-muted py-3">Erreur de chargement.</p>';
     updateBadge(0);
   }
 }
 
-// Mise à jour du badge (dynamique)
-function updateBadge(count) {
-  if (!notifCount || !notifBadge) return;
-  notifCount.textContent = count;
-  notifBadge.textContent = count > 99 ? '99+' : count;
-  notifBadge.style.display = count > 0 ? 'block' : 'none';
-  console.log('Debug: Badge mis à jour à', count);
-}
-
-// Fonction markAsRead (séparée)
+// Marque une notif individuelle comme lue
 async function markAsRead(id) {
-  const userId = localStorage.getItem('userId') || 1;
+  if (!userId) return;
   try {
-    const response = await fetch('/EcoSolve/backend/mark_read.php', {
+    await fetch('/EcoSolve/backend/mark_read.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `notif_id=${id}&user_id=${userId}`
     });
+    loadNotifications(true);
+  } catch (e) {
+    console.error('Erreur mark:', e);
+  }
+}
+
+// FIX : Marque TOUS les notifs comme lus (DB + UI)
+async function markAllAsRead() {
+  if (!userId) return;
+  try {
+    const response = await fetch('/EcoSolve/backend/mark_all_read.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `user_id=${userId}`
+    });
     if (response.ok) {
-      loadNotifications(true);  // Refresh silencieux (sans spinner)
-      console.log('Debug: Notif marquée lue:', id);
+      loadNotifications(true);  // Refresh liste, vire "Nouveau"
+      loadNotificationCount();  // Refresh count, badge = 0
     }
   } catch (e) {
-    console.error('Erreur mark read:', e);
+    console.error('Erreur mark all:', e);
+    // Fallback UI-only : cache badge même si DB rate
+    updateBadge(0);
   }
 }
 
-// Toggle du dropdown
+// Rendre markAsRead globale pour onclick (fix TS error)
+window.markAsRead = markAsRead;
+
+// Toggle dropdown (FIX : Marque tous lus sur ouverture)
 if (notificationBtn && notifBox) {
-  notificationBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log('Debug: Clic sur bouton détecté !');
+  notificationBtn.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation();
     notifBox.classList.toggle('show');
-    
     if (notifBox.classList.contains('show')) {
-      loadNotifications();  // Full load au clic
+      loadNotifications();
+      markAllAsRead();  // Marque tous lus + cache badge & "Nouveau"
     }
   });
-} else {
-  console.error('Erreur: Bouton ou boîte non trouvés !');
 }
 
-// Fermer avec le bouton X
 if (closeNotif) {
-  closeNotif.addEventListener('click', function(e) {
-    e.preventDefault();
-    notifBox.classList.remove('show');
-    console.log('Debug: Fermé via bouton X');
-  });
+  closeNotif.addEventListener('click', e => { e.preventDefault(); notifBox.classList.remove('show'); });
 }
 
-// Fermer si clic dehors
-document.addEventListener('click', function(e) {
-  if (!notifBox.contains(e.target) && !notificationBtn.contains(e.target)) {
-    notifBox.classList.remove('show');
-    console.log('Debug: Fermé via clic dehors');
-  }
+document.addEventListener('click', e => {
+  if (!notifBox.contains(e.target) && !notificationBtn.contains(e.target)) notifBox.classList.remove('show');
 });
 
-// Charge initiale pour badge seulement (optimisation : count_only au load)
-window.addEventListener('load', function() {
-  const userCity = localStorage.getItem('userCity') || 'Sfax';
-  const userId = localStorage.getItem('userId') || 1;
-  fetch(`/EcoSolve/backend/get_notifications.php?city=${encodeURIComponent(userCity)}&user_id=${userId}&count_only=1`)
-    .then(res => res.json())
-    .then(data => updateBadge(data.unread_count || 0))
-    .catch(() => updateBadge(0));
-});
+window.addEventListener('load', loadUserData);
+
 })();
